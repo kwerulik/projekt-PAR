@@ -1,4 +1,4 @@
-export const cars = [
+export let cars = [
   {
     id: 1,
     plate_number: "KR1234AB",
@@ -110,3 +110,15 @@ export const cars = [
     payment: "faktury/payment10.pdf",
   }
 ];
+
+export function removeFromCar(carId) {
+  let newCars = [];
+  carId = Number(carId);
+  cars.forEach((car) => {
+    if(car.id !== carId){
+      newCars.push(car);
+    }
+  })
+
+  cars = newCars;
+}
