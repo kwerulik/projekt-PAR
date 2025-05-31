@@ -1,3 +1,52 @@
 body {
   font-family: "Roboto";
+  background-color: #f4f6f8;
+  color: #1a1a1a;
+}
+
+.cars-container {
+  margin: 100px;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.car-details {
+  border: 1px solid #e0e0e0;
+  padding: 15px;
+  height: 250px;
+  width: 250px;
+  background-color: white;
+  border-radius: 8px;
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.car-info {
+  font-size: 23px;
+  padding-bottom: 15px;
+}
+
+.plate-number {
+  font-weight: bold;
+}
+
+.buttons-container {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.buttons-container button {
+  border: none;
+  background-color: #52a8fe;
+  border-radius: 5px;
+  color: white;
+  font-size: 19px;
+  padding: 10px 5px;
 }
