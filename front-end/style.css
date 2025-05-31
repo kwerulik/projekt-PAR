@@ -1,7 +1,7 @@
 body {
   font-family: "Roboto";
-  background-color: #f4f6f8;
-  color: #1a1a1a;
+  background-color: #0f0e17;
+  color: #fffffe;
 }
 
 .cars-container {
@@ -13,11 +13,11 @@ body {
 }
 
 .car-details {
-  border: 1px solid #e0e0e0;
+  border: 1px solid #2e2f3e;
   padding: 15px;
   height: 250px;
   width: 250px;
-  background-color: white;
+  background-color: #1f2833;
   border-radius: 8px;
   text-align: center;
 
@@ -44,9 +44,15 @@ body {
 
 .buttons-container button {
   border: none;
-  background-color: #52a8fe;
+  background-color: #3bba9c;
   border-radius: 5px;
-  color: white;
+  color: #fff;
   font-size: 19px;
   padding: 10px 5px;
+}
+
+.buttons-container button:hover {
+  background-color: #24967a;
+  cursor: pointer;
+  transform: translateY(-2px) scale(1.04);
 }
