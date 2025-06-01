@@ -13,6 +13,7 @@ body {
 }
 
 .car-details {
+  position: relative;
   border: 1px solid #2e2f3e;
   padding: 15px;
   height: 250px;
