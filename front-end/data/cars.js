@@ -114,6 +114,7 @@ export let cars = [
 export function removeFromCar(carId) {
   let newCars = [];
   carId = Number(carId);
+  
   cars.forEach((car) => {
     if(car.id !== carId){
       newCars.push(car);

@@ -1,0 +1,98 @@
+.update-form {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  color: black;
+  padding: 22px 26px 16px 26px;  
+  margin-top: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  z-index: 10;
+  min-width: 220px;
+}
+
+.update-form::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: -10px;
+  left: 50%;
+  border: 5px solid transparent;
+  border-bottom-color: #fff;
+}
+
+.update-button.active {
+  background-color: #24967a;
+  transform: translateY(2px);
+}
+
+.update-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.update-form input[type="text"],
+.update-form input[type="date"] {
+  padding: 7px 10px;
+  margin-top: 3px;
+  border: 1px solid #bfc8e6;
+  border-radius: 5px;
+  font-size: 15px;
+  background: #fff;
+  color: #232946;
+  transition: border 0.2s;
+}
+
+.update-form input:focus {
+  border: 1.5px solid #3bba9c;
+  outline: none;
+  background: #f0f7f4;
+}
+
+.update-form button[type="submit"] {
+  background: #3bba9c;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 18px;
+  font-size: 15px;
+  margin-right: 8px;
+  margin-top: 8px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.update-form button[type="submit"]:hover {
+  background: #24967a;
+  transform: scale(1.04);
+}
+
+.update-form .cancel-update {
+  background: #e0e3ef;
+  color: #232946;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 16px;
+  font-size: 15px;
+  margin-top: 8px;
+  cursor: pointer;
+}
+
+.update-form .cancel-update:hover {
+  background: #bfc8e6;
+  color: #232946;
+}
+
+.update-form::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: -12px;
+  border: 7px solid transparent;
+  border-bottom-color: #f4f6fb;
+}
