@@ -133,3 +133,9 @@ export function updateCar(carId, newCar) {
     }
   });
 }
+
+export function addCar(newCar) {
+  newCar.id = Math.round(Math.random() * 9999).toString();
+  cars.push(newCar);
+  
+}

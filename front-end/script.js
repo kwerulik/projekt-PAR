@@ -1,4 +1,4 @@
-import { cars, removeFromCar, updateCar } from "./data/cars.js";
+import { cars, removeFromCar, updateCar, addCar } from "./data/cars.js";
 
 renderCarDetails();
 
@@ -120,4 +120,32 @@ function addEventListeners() {
       renderCarDetails();  
     });
   });
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const addCarBtn = document.getElementById("add-car-button");
+    const addCarModal = document.getElementById("add-car");
+    const cancelAddCar = document.getElementById("cancel-add-car");
+    const addCarForm = document.getElementById("add-car-form");
+
+    addCarBtn.addEventListener("click", () => {
+      addCarModal.classList.remove("hidden");
+    });
+
+    cancelAddCar.addEventListener("click", () => {
+      addCarModal.classList.add("hidden");
+      addCarForm.reset();
+    });
+
+    addCarForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const formData = new FormData(addCarForm);
+      const newCar = Object.fromEntries(formData.entries());
+
+      addCar(newCar);
+      renderCarDetails();
+      addCarModal.classList.add("hidden");
+      addCarForm.reset();
+    });
+  });
 }
+
