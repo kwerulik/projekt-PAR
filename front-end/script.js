@@ -1,4 +1,4 @@
-import { cars, removeFromCar } from "./data/cars.js";
+import { cars, removeFromCar, updateCar } from "./data/cars.js";
 
 renderCarDetails();
 
@@ -31,7 +31,7 @@ function renderCarDetails(){
           <label>Data zakończenia: <input name="end_date" type="date" value="${carItem.end_date}" required></label><br>
           <label>Notatka: <input name="note" value="${carItem.note || ''}"></label><br>
           <label>Faktura (link): <input name="payment" value="${carItem.payment || ''}"></label><br>
-          <button type="submit">Zapisz</button>
+          <button type="submit" class='js-update-button' data-car-id=${carItem.id}>Zapisz</button>
           <button type="button" class="cancel-update" data-car-id=${carItem.id} >Anuluj</button>
         </form>
       </div>
@@ -85,8 +85,6 @@ function addEventListeners() {
       const updateForm = document.getElementById(`update-form-${carId}`);
       const isVisible = updateForm.classList.contains("hidden");
       
-      console.log(isVisible)
-
       if (isVisible) {
         updateForm.classList.remove("hidden");
         button.classList.add("active");
@@ -107,5 +105,19 @@ function addEventListeners() {
 
       updateForm.classList.add('hidden');
     })
+  });
+
+  document.querySelectorAll(".js-update-button").forEach( button => {
+    button.addEventListener('click', event => {
+      event.preventDefault();
+      const carId = button.dataset.carId;
+      const form = document.getElementById(`update-form-${carId}`);
+      const formData = new FormData(form);
+      const updatedCar = Object.fromEntries(formData.entries());
+
+      updateCar(carId, updatedCar);
+
+      renderCarDetails();  
+    });
   });
 }

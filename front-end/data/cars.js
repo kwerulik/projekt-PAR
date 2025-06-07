@@ -123,3 +123,13 @@ export function removeFromCar(carId) {
 
   cars = newCars;
 }
+
+export function updateCar(carId, newCar) {
+  carId = Number(carId);
+  newCar.id = carId;
+  cars.forEach(car => {
+    if(car.id === carId){
+      Object.assign(car, newCar);
+    }
+  });
+}
