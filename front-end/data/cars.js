@@ -108,18 +108,18 @@ export let cars = [
     start_date: "2025-05-14",
     end_date: "2025-05-15",
     payment: "faktury/payment10.pdf",
-  }
+  },
 ];
 
 export function removeFromCar(carId) {
   let newCars = [];
   carId = Number(carId);
-  
+
   cars.forEach((car) => {
-    if(car.id !== carId){
+    if (car.id !== carId) {
       newCars.push(car);
     }
-  })
+  });
 
   cars = newCars;
 }
@@ -127,8 +127,8 @@ export function removeFromCar(carId) {
 export function updateCar(carId, newCar) {
   carId = Number(carId);
   newCar.id = carId;
-  cars.forEach(car => {
-    if(car.id === carId){
+  cars.forEach((car) => {
+    if (car.id === carId) {
       Object.assign(car, newCar);
     }
   });
@@ -137,5 +137,4 @@ export function updateCar(carId, newCar) {
 export function addCar(newCar) {
   newCar.id = Math.round(Math.random() * 9999).toString();
   cars.push(newCar);
-  
 }
