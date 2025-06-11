@@ -1,4 +1,4 @@
-import { cars, removeFromCar, updateCar, addCar } from "./data/cars.js";
+import { cars, removeFromCar, updateCar, addCar, getCars } from "./data/cars.js";
 
 renderCarDetails();
 
