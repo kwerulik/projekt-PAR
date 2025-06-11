@@ -1,4 +1,4 @@
-export let cars = [
+export let cars = getCars() || [
   {
     id: 1,
     plate_number: "KR1234AB",
@@ -111,31 +111,48 @@ export let cars = [
   }
 ];
 
-export function removeFromCar(carId) {
-  let newCars = [];
-  carId = Number(carId);
-  
-  cars.forEach((car) => {
-    if(car.id !== carId){
-      newCars.push(car);
-    }
-  })
-
-  cars = newCars;
+async function getCars() {
+  const response = await fetch("http://localhost:3000/cars");
+  const data = await response.json();
+  return data;
 }
 
-export function updateCar(carId, newCar) {
-  carId = Number(carId);
-  newCar.id = carId;
-  cars.forEach(car => {
-    if(car.id === carId){
-      Object.assign(car, newCar);
-    }
+export async function removeFromCar(carId) {
+  const response = await fetch(`http://localhost:3000/cars/${carId}`, {
+    method: 'DELETE'
   });
+
+  if (response.ok) {
+    console.log(`Car with ID ${carId} deleted`);
+  } else {
+    console.log('Failed to delete car');
+  }
 }
 
-export function addCar(newCar) {
-  newCar.id = Math.round(Math.random() * 9999).toString();
-  cars.push(newCar);
-  
+export async function updateCar(carId, newCar) {
+  const response = await fetch(`http://localhost:3000/cars/${carId}`, {
+    method: 'PUT',
+    headers: {
+      'Constent-Type': 'application/json',
+    },
+    body: JSON.stringify(newCar)
+  });
+
+  const data = response.json();
+  return data;
+}
+
+export async function addCar(newCar) {
+  // newCar.id = Math.round(Math.random() * 9999).toString();
+  // cars.push(newCar);
+  const response = await fetch("http://localhost:3000/cars", {
+    method:'POST',
+    headers:{
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(newCar),
+  });
+
+  const data = response.json();
+  return data;
 }
