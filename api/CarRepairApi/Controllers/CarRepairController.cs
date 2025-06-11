@@ -180,10 +180,5 @@ namespace CarRepairApi.Controllers
                 return StatusCode(500, new { message = "Błąd podczas pobierania pliku: " + ex.Message });
             }
         }
-
-        private async Task<bool> CarRepairExists(int id)
-        {
-            return await _context.CarRepairs.AnyAsync(e => e.Id == id);
-        }
     }
 }
