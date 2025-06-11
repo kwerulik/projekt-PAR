@@ -72,8 +72,6 @@ export async function updateCar(carId, newCar) {
 }
 
 export async function addCar(newCar) {
-  newCar.id = Math.round(Math.random() * 9999).toString();
-
   try {
     const response = await fetch("http://localhost:5180/api/CarRepair", {
       method: "POST",

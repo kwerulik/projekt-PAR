@@ -181,9 +181,5 @@ namespace CarRepairApi.Controllers
             }
         }
 
-        private async Task<bool> CarRepairExists(int id)
-        {
-            return await _context.CarRepairs.AnyAsync(e => e.Id == id);
-        }
     }
 }
