@@ -1,16 +1,18 @@
+import { renderCarDetails } from "../script.js";
+
 export let cars = [];
-//  getCars() || [
-  // {
-  //   id: 1,
-  //   plate_number: "KR1234AB",
-  //   make: "Toyota",
-  //   model: "Corolla",
-  //   note: "Wymiana oleju silnikowego i filtra",
-  //   owner: "Jan Kowalski",
-  //   start_date: "2025-03-10",
-  //   end_date: "2025-03-11",
-  //   payment: "faktury/payment1.pdf",
-  // },
+// [
+//   {
+//     id: 1,
+//     plate_number: "KR1234AB",
+//     make: "Toyota",
+//     model: "Corolla",
+//     note: "Wymiana oleju silnikowego i filtra",
+//     owner: "Jan Kowalski",
+//     start_date: "2025-03-10",
+//     end_date: "2025-03-11",
+//     payment: "faktury/payment1.pdf",
+//   },
 //   {
 //     id: 2,
 //     plate_number: "WA4567CD",
@@ -112,12 +114,9 @@ export let cars = [];
 //   }
 // ];
 
-getCars();
 export async function getCars() {
   const response = await fetch("http://localhost:5180/api/CarRepair");
   const data = await response.json();
-  cars = data;
-  console.log(cars);
   return data;
 }
 
@@ -134,21 +133,28 @@ export async function removeFromCar(carId) {
 }
 
 export async function updateCar(carId, newCar) {
+  newCar.id = carId;
+  console.log(newCar);
   const response = await fetch(`http://localhost:5180/api/CarRepair/${carId}`, {
     method: 'PUT',
     headers: {
-      'Constent-Type': 'application/json',
+      'Content-Type': 'application/json', 
     },
     body: JSON.stringify(newCar)
   });
 
-  const data = response.json();
-  return data;
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Błąd przy aktualizacji auta: ${errorText}`);
+  }
+
+  console.log('Auto zaktualizowane popranie');
+  return renderCarDetails();
 }
 
 export async function addCar(newCar) {
-  // newCar.id = Math.round(Math.random() * 9999).toString();
-  // cars.push(newCar);
+  newCar.id = Math.round(Math.random() * 9999).toString();
   const response = await fetch("http://localhost:5180/api/CarRepair", {
     method:'POST',
     headers:{
@@ -157,6 +163,13 @@ export async function addCar(newCar) {
     body: JSON.stringify(newCar),
   });
 
-  const data = response.json();
-  return data;
+  if (!response.ok) {
+    const errorText = await response.text();
+    console.error("Błąd przy dodawaniu auta:", errorText);
+    return;
+  }
+
+  const data = await response.json();
+  console.log(data);
+  return renderCarDetails();
 }
