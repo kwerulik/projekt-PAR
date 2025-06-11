@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "qMmRLuNyfYQ=",
+  "dgSpecHash": "qUxFYSHxjng=",
   "success": true,
-  "projectFilePath": "F:\\Laby\\App Rozproszone\\Projekt\\api\\CarRepairApi\\CarRepairApi.csproj",
+  "projectFilePath": "D:\\Laboratoria\\IiE\\AppRozproszone\\Projekt\\api\\CarRepairApi\\CarRepairApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\konar\\.nuget\\packages\\microsoft.entityframeworkcore\\9.0.5\\microsoft.entityframeworkcore.9.0.5.nupkg.sha512",
     "C:\\Users\\konar\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\9.0.5\\microsoft.entityframeworkcore.abstractions.9.0.5.nupkg.sha512",
