@@ -15,7 +15,42 @@ namespace CarRepairApi.Controllers
             _context = context;
             if (!_context.CarRepairs.Any())
             {
-                _context.CarRepairs.Add(new CarRepair { Make = "VolksWagen", Model = "Golf", Note = "Wycinanie kata", Owner = "Seba z Osiedla" });
+                _context.CarRepairs.AddRange(
+                    [
+                    new CarRepair { PlateNumber = "GWE 2137W",
+                        Make = "VolksWagen",
+                        Model = "Golf",
+                        Note = "Wycinanie kata",
+                        Owner = "Seba z Osiedla" },
+
+                    new CarRepair {
+                        PlateNumber = "KR1234AB",
+                        Make = "Toyota",
+                        Model = "Corolla",
+                        Note = "Wymiana oleju silnikowego i filtra",
+                        Owner = "Jan Kowalski",
+                        StartDate = new DateOnly(2025, 3, 10),
+                        EndDate = new DateOnly(2025, 3, 11),
+                        PaymentDoc = "faktury/payment1.pdf"},
+                    new CarRepair {
+                        PlateNumber = "WA4567CD",
+                        Make = "Audi",
+                        Model = "A3",
+                        Note = "Naprawa układu hamulcowego",
+                        Owner = "Anna Nowak",
+                        StartDate = new DateOnly(2025, 4, 2),
+                        EndDate = new DateOnly(2025, 4, 4),
+                        PaymentDoc = "faktury/payment2.pdf"},
+                    new CarRepair {
+                        PlateNumber ="PO8910EF",
+                        Make = "Renault",
+                        Model = "Megane",
+                        Note = "Wymiana sprzęgła",
+                        Owner = "Piotr Zieliński",
+                        StartDate = new DateOnly(2025, 2, 15),
+                        EndDate = new DateOnly(2025, 2, 17),
+                        PaymentDoc = "faktury/payment3.pdf"}
+                ]);
                 _context.SaveChanges();
             }
         }

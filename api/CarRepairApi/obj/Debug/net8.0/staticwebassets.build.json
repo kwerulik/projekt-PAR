@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "FPBbKo2XIYRtCON5d9Wm+tqh4aVIPelNYiFNBsS7vPM=",
+  "Source": "CarRepairApi",
+  "BasePath": "_content/CarRepairApi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
