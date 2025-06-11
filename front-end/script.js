@@ -48,8 +48,15 @@ function addEventListeners() {
       event.stopPropagation();
       
       const carId = button.dataset.carId;      
-      await removeFromCar(carId);
-      renderCarDetails();
+      await removeFromCar(carId)
+      .then((result) => {
+        if (result?.status === "error") {
+          alert(`Błąd usuwania auta: ${result.message}`);
+        } else {
+          alert("Auto zostało usunięte");
+          renderCarDetails();
+        }
+      });
     });
   });
   
@@ -114,7 +121,15 @@ function addEventListeners() {
       const formData = new FormData(form);
       const updatedCar = Object.fromEntries(formData.entries());
 
-      await updateCar(carId, updatedCar);
+      await updateCar(carId, updatedCar)
+      .then((result) => {
+        if (result?.status === "error") {
+          alert(`Błąd aktualizacji auta: ${result.message}`);
+        } else {
+          alert(result.message);
+          renderCarDetails();
+        }
+      });
     });
   });
   
@@ -139,7 +154,14 @@ addCarForm.addEventListener("submit", async (event) => {
   const formData = new FormData(addCarForm);
   const newCar = Object.fromEntries(formData.entries());
 
-  await addCar(newCar);
+  await addCar(newCar).then((result) => {
+    if (result?.status === "error") {
+      alert(`Błąd dodawania auta: ${result.message}`);
+    } else {
+      alert("Auto zostało dodane");
+      renderCarDetails();
+    }
+  });
   addCarModal.classList.add("hidden");
   addCarForm.reset();
 });
