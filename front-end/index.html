@@ -13,21 +13,20 @@
   <link rel="stylesheet" href="./styles/update.css">
 </head>
 <body>
-  <div class="cars-container">
-    
+  <div class="cars-container">    
   </div>
 
   <button id="add-car-button" class="add-car-button">+</button>
   <div id="add-car" class="add-car hidden">
     <form id="add-car-form" class="add-car-form">
-      <label>Marka: <input name="make" required></label><br>
-      <label>Model: <input name="model" required></label><br>
-      <label>Numer rejestracyjny: <input name="plate_number" required></label><br>
-      <label>Właściciel: <input name="owner" required></label><br>
-      <label>Data rozpoczęcia: <input name="start_date" type="date" required></label><br>
-      <label>Data zakończenia: <input name="end_date" type="date" required></label><br>
-      <label>Notatka: <input name="note"></label><br>
-      <label>Faktura (link): <input name="payment" placeholder="faktury/payment3.pdf"></label><br>
+      <label>Marka: <input name="Make" required></label><br>
+      <label>Model: <input name="Model" required></label><br>
+      <label>Numer rejestracyjny: <input name="PlateNumber" required></label><br>
+      <label>Właściciel: <input name="Owner" required></label><br>
+      <label>Data rozpoczęcia: <input name="StartDate" type="date" ></label><br>
+      <label>Data zakończenia: <input name="EndDate" type="date" ></label><br>
+      <label>Notatka: <input name="Note"></label><br>
+      <label>Faktura (link): <input name="PaymentDoc" placeholder="faktury/payment3.pdf"></label><br>
       <button type="submit">Dodaj</button>
       <button type="button" id="cancel-add-car" class="cancel-add-car">Anuluj</button>
     </form>
