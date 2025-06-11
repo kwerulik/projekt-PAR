@@ -17,7 +17,8 @@ namespace CarRepairApi.Controllers
             {
                 _context.CarRepairs.AddRange(
                     [
-                    new CarRepair { PlateNumber = "GWE 2137W",
+                    new CarRepair { 
+                        PlateNumber = "GWE 2137W",
                         Make = "VolksWagen",
                         Model = "Golf",
                         Note = "Wycinanie kata",
@@ -32,6 +33,7 @@ namespace CarRepairApi.Controllers
                         StartDate = new DateOnly(2025, 3, 10),
                         EndDate = new DateOnly(2025, 3, 11),
                         PaymentDoc = "faktury/payment1.pdf"},
+
                     new CarRepair {
                         PlateNumber = "WA4567CD",
                         Make = "Audi",
@@ -41,6 +43,7 @@ namespace CarRepairApi.Controllers
                         StartDate = new DateOnly(2025, 4, 2),
                         EndDate = new DateOnly(2025, 4, 4),
                         PaymentDoc = "faktury/payment2.pdf"},
+
                     new CarRepair {
                         PlateNumber ="PO8910EF",
                         Make = "Renault",
