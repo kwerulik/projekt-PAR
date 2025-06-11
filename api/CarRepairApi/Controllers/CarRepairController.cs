@@ -17,7 +17,8 @@ namespace CarRepairApi.Controllers
             {
                 _context.CarRepairs.AddRange(
                     [
-                    new CarRepair { PlateNumber = "GWE 2137W",
+                    new CarRepair { 
+                        PlateNumber = "GWE 2137W",
                         Make = "VolksWagen",
                         Model = "Golf",
                         Note = "Wycinanie kata",
@@ -32,6 +33,7 @@ namespace CarRepairApi.Controllers
                         StartDate = new DateOnly(2025, 3, 10),
                         EndDate = new DateOnly(2025, 3, 11),
                         PaymentDoc = "faktury/payment1.pdf"},
+
                     new CarRepair {
                         PlateNumber = "WA4567CD",
                         Make = "Audi",
@@ -41,6 +43,7 @@ namespace CarRepairApi.Controllers
                         StartDate = new DateOnly(2025, 4, 2),
                         EndDate = new DateOnly(2025, 4, 4),
                         PaymentDoc = "faktury/payment2.pdf"},
+
                     new CarRepair {
                         PlateNumber ="PO8910EF",
                         Make = "Renault",
@@ -105,6 +108,77 @@ namespace CarRepairApi.Controllers
             _context.CarRepairs.Remove(CarRepair);
             await _context.SaveChangesAsync();
             return NoContent();
+        }
+
+        private async Task<bool> CarRepairExists(int id)
+        {
+            return await _context.CarRepairs.AnyAsync(e => e.Id == id);
+        }
+        
+        [HttpPost("upload/{id}")]
+        public async Task<IActionResult> UploadPaymentDoc(int id, IFormFile file)
+        {
+            try
+            {
+                var carRepair = await _context.CarRepairs.FindAsync(id);
+                if (carRepair == null)
+                    return NotFound(new { message = "Zgłoszenie nie istnieje." });
+
+                if (file == null || file.Length == 0)
+                    return BadRequest(new { message = "Plik jest pusty lub nie przesłano pliku." });
+
+                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "faktury");
+                if (!Directory.Exists(uploadsFolder))
+                    Directory.CreateDirectory(uploadsFolder);
+
+                var fileName = $"{Guid.NewGuid()}_{file.FileName}";
+                var filePath = Path.Combine(uploadsFolder, fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                carRepair.PaymentDoc = $"faktury/{fileName}";
+                await _context.SaveChangesAsync();
+
+                return Ok(new { message = "Plik przesłany", path = carRepair.PaymentDoc });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Błąd podczas przesyłania pliku: " + ex.Message });
+            }
+        }
+
+        [HttpGet("download/{id}")]
+        public async Task<IActionResult> DownloadPaymentDoc(int id)
+        {
+            try
+            {
+                var carRepair = await _context.CarRepairs.FindAsync(id);
+                if (carRepair == null)
+                    return NotFound(new { message = "Zgłoszenie nie istnieje." });
+
+                if (string.IsNullOrEmpty(carRepair.PaymentDoc))
+                    return NotFound(new { message = "Nie znaleziono pliku faktury." });
+
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), carRepair.PaymentDoc);
+                if (!System.IO.File.Exists(filePath))
+                    return NotFound(new { message = "Plik faktury nie istnieje na serwerze." });
+
+                var memory = new MemoryStream();
+                using (var stream = new FileStream(filePath, FileMode.Open))
+                {
+                    await stream.CopyToAsync(memory);
+                }
+                memory.Position = 0;
+
+                return File(memory, "application/pdf", Path.GetFileName(filePath));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Błąd podczas pobierania pliku: " + ex.Message });
+            }
         }
 
         private async Task<bool> CarRepairExists(int id)

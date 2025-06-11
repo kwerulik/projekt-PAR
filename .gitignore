@@ -1,3 +1,4 @@
-api\CarRepairApi\.vs
-api\CarRepairApi\bin
-api\CarRepairApi\bin
+# Visual Studio files
+.vs/
+**/bin/
+**/obj/
