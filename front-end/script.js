@@ -53,8 +53,8 @@ function addEventListeners() {
         if (result?.status === "error") {
           alert(`Błąd usuwania auta: ${result.message}`);
         } else {
-          alert("Auto zostało usunięte");
           renderCarDetails();
+          alert("Auto zostało usunięte");
         }
       });
     });
@@ -126,8 +126,8 @@ function addEventListeners() {
         if (result?.status === "error") {
           alert(`Błąd aktualizacji auta: ${result.message}`);
         } else {
-          alert(result.message);
           renderCarDetails();
+          alert(result.message);
         }
       });
     });
@@ -158,8 +158,8 @@ addCarForm.addEventListener("submit", async (event) => {
     if (result?.status === "error") {
       alert(`Błąd dodawania auta: ${result.message}`);
     } else {
-      alert("Auto zostało dodane");
       renderCarDetails();
+      alert("Auto zostało dodane");
     }
   });
   addCarModal.classList.add("hidden");
