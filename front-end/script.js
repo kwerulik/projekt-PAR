@@ -29,9 +29,11 @@ export async function renderCarDetails() {
         <div class="more-info-box hidden" id="info-box-${carItem.id}">
           <p><strong>Model:</strong> ${carItem.model}</p>
           <p><strong>Właściciel:</strong> ${carItem.owner}</p>
-          <p><strong>Data rozpoczęcia:</strong> ${carItem.startDate || ''}</p>
-          <p><strong>Data zakończenia:</strong> ${carItem.endDate || ''}</p>
-          <p><a href="faktury/${carItem.paymentDoc}" target="_blank">Pokaż fakturę</a></p>
+          <p><strong>Data rozpoczęcia:</strong> ${carItem.startDate || ""}</p>
+          <p><strong>Data zakończenia:</strong> ${carItem.endDate || ""}</p>
+<a href="http://localhost:5180/api/CarRepair/download/${
+      carItem.id
+    }" target="_blank">Pobierz fakturę</a>
         </div>
         <form class="update-form hidden" id="update-form-${carItem.id}">
           <label>Make: <input name="make" value="${
@@ -55,9 +57,8 @@ export async function renderCarDetails() {
           <label>Notatka: <input name="note" value="${
             carItem.note || ""
           }"></label><br>
-          <label>Faktura (link): <input name="paymentDoc" value="${
-            carItem.payment || ""
-          }"></label><br>
+          <label>Faktura (plik): <input name="paymentFile" type='file'></label><br>
+<br>
           <button type="submit" class='js-update-button' data-car-id=${
             carItem.id
           }>Zapisz</button>
@@ -150,10 +151,9 @@ function addEventListeners() {
       const formData = new FormData(form);
       const updatedCar = Object.fromEntries(formData.entries());
 
-      const file = form.querySelector('input[name="paymentFile"]').files[0];
+      const file = form.querySelector('input[name="paymentFile"]')?.files[0];
 
       await updateCar(carId, updatedCar).then(async (result) => {
-      await updateCar(carId, updatedCar).then((result) => {
         if (result?.status === "error") {
           alert(`Błąd aktualizacji auta: ${result.message}`);
         } else {
@@ -192,19 +192,36 @@ cancelAddCar.addEventListener("click", () => {
 
 addCarForm.addEventListener("submit", async (event) => {
   event.preventDefault();
+
   const formData = new FormData(addCarForm);
   const newCar = Object.fromEntries(formData.entries());
-  const docFile = newCar.PaymentDoc;
   delete newCar.PaymentDoc;
 
-  await addCar(newCar).then((result) => {
+  const file = addCarForm.querySelector('input[name="paymentFile"]')?.files[0];
+
+  try {
+    const result = await addCar(newCar);
+
     if (result?.status === "error") {
       alert(`Błąd dodawania auta: ${result.message}`);
     } else {
+      if (file && result?.data?.id) {
+        await uploadFile(result.data.id, file);
+      }
+
       renderCarDetails();
       alert("Auto zostało dodane");
     }
-  });
+  } catch (error) {
+    alert("Wystąpił błąd podczas dodawania auta.");
+    console.error(error);
+  }
+
   addCarModal.classList.add("hidden");
   addCarForm.reset();
+});
+
+
+document.querySelector('input[name="paymentFile"]').addEventListener('change', (e) => {
+  console.log("Plik wybrany:", e.target.files[0]);
 });
