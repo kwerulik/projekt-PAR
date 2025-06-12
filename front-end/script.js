@@ -4,6 +4,7 @@ import {
   updateCar,
   addCar,
   getCars,
+  uploadFile,
 } from "./data/cars.js";
 renderCarDetails();
 
