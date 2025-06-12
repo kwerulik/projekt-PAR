@@ -1,37 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Car Repair</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-    rel="stylesheet">
-  <link rel="stylesheet" href="./styles/main.css"/>
-  <link rel="stylesheet" href="./styles/more-info.css"/>
-  <link rel="stylesheet" href="./styles/update.css">
-</head>
-<body>
-  <div class="cars-container">    
-  </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Car Repair</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles/main.css" />
+    <link rel="stylesheet" href="./styles/more-info.css" />
+    <link rel="stylesheet" href="./styles/update.css" />
+  </head>
+  <body>
+    <div class="cars-container"></div>
 
-  <button id="add-car-button" class="add-car-button">+</button>
-  <div id="add-car" class="add-car hidden">
-    <form id="add-car-form" class="add-car-form">
-      <label>Marka: <input name="Make" required></label><br>
-      <label>Model: <input name="Model" required></label><br>
-      <label>Numer rejestracyjny: <input name="PlateNumber" required></label><br>
-      <label>Właściciel: <input name="Owner" required></label><br>
-      <label>Data rozpoczęcia: <input name="StartDate" type="date" ></label><br>
-      <label>Data zakończenia: <input name="EndDate" type="date" ></label><br>
-      <label>Notatka: <input name="Note"></label><br>
-      <label>Faktura (link): <input name="PaymentDoc" placeholder="faktury/payment3.pdf"></label><br>
-      <button type="submit">Dodaj</button>
-      <button type="button" id="cancel-add-car" class="cancel-add-car">Anuluj</button>
-    </form>
-  </div>
+    <button id="add-car-button" class="add-car-button">+</button>
+    <div id="add-car" class="add-car hidden">
+      <form id="add-car-form" class="add-car-form">
+        <label>Marka: <input name="Make" required /></label><br />
+        <label>Model: <input name="Model" required /></label><br />
+        <label>Numer rejestracyjny: <input name="PlateNumber" required /></label
+        ><br />
+        <label>Właściciel: <input name="Owner" required /></label><br />
+        <label>Data rozpoczęcia: <input name="StartDate" type="date" /></label
+        ><br />
+        <label>Data zakończenia: <input name="EndDate" type="date" /></label
+        ><br />
+        <label>Notatka: <input name="Note" /></label><br />
+        <label
+          >Faktura (link):
+          <input
+            type="file"
+            name="PaymentDoc"
+            placeholder="faktury/payment3.pdf" /></label
+        ><br />
+        <button type="submit">Dodaj</button>
+        <button type="button" id="cancel-add-car" class="cancel-add-car">
+          Anuluj
+        </button>
+      </form>
+    </div>
 
-  <script type="module" src="script.js"></script>
-</body>
+    <script type="module" src="script.js"></script>
+  </body>
 </html>

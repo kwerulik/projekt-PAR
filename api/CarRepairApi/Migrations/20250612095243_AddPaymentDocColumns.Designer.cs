@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRepairApi.Migrations
 {
     [DbContext(typeof(CarRepairContext))]
-    [Migration("20250611123131_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250612095243_AddPaymentDocColumns")]
+    partial class AddPaymentDocColumns
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -52,7 +52,13 @@ namespace CarRepairApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PaymentDoc")
+                    b.Property<string>("PaymentDocContentType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("PaymentDocData")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("PaymentDocFileName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PlateNumber")
