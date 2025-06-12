@@ -95,3 +95,29 @@ export async function addCar(newCar) {
     return { status: "error", message: error.message };
   }
 }
+
+export async function uploadFile(carId, file) {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  try {
+    const response = await fetch(
+      `http://localhost:5180/api/CarRepair/upload/${carId}`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Błąd ${response.status}: ${errorText}`);
+    }
+
+    console.log("Plik przesłany poprawnie");
+    return { status: "success", message: "Plik przesłany poprawnie" };
+  } catch (error) {
+    console.error("Błąd przesyłania pliku:", error.message);
+    return { status: "error", message: error.message };
+  }
+}

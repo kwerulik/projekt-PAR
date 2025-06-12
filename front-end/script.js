@@ -29,7 +29,7 @@ export async function renderCarDetails(){
           <label>Data rozpoczęcia: <input name="startDate" type="date" value="${carItem.startDate || ''}" required></label><br>
           <label>Data zakończenia: <input name="endDate" type="date" value="${carItem.endDate || ''}" required></label><br>
           <label>Notatka: <input name="note" value="${carItem.note || ''}"></label><br>
-          <label>Faktura (link): <input name="paymentDoc" value="${carItem.payment || ''}"></label><br>
+          <label>Faktura (link): <input name="paymentDoc" type="file" value="${carItem.PaymentDoc || ''}"></label><br>
           <button type="submit" class='js-update-button' data-car-id=${carItem.id}>Zapisz</button>
           <button type="button" class="cancel-update" data-car-id=${carItem.id} >Anuluj</button>
         </form>
@@ -113,21 +113,33 @@ function addEventListeners() {
     })
   });
 
-  document.querySelectorAll(".js-update-button").forEach( (button) => {
-    button.addEventListener('click', async event => {
+  document.querySelectorAll(".js-update-button").forEach((button) => {
+    button.addEventListener("click", async (event) => {
       event.preventDefault();
       const carId = button.dataset.carId;
       const form = document.getElementById(`update-form-${carId}`);
       const formData = new FormData(form);
       const updatedCar = Object.fromEntries(formData.entries());
 
-      await updateCar(carId, updatedCar)
-      .then((result) => {
+      const file = form.querySelector('input[name="paymentFile"]').files[0];
+
+      await updateCar(carId, updatedCar).then(async (result) => {
         if (result?.status === "error") {
           alert(`Błąd aktualizacji auta: ${result.message}`);
         } else {
+          if (file) {
+            const uploadResult = await uploadFile(carId, file);
+            if (uploadResult.status === "error") {
+              alert(
+                `Auto zaktualizowane, ale błąd przesyłania pliku: ${uploadResult.message}`
+              );
+            } else {
+              alert("Auto i plik zostały zaktualizowane");
+            }
+          } else {
+            alert(result.message);
+          }
           renderCarDetails();
-          alert(result.message);
         }
       });
     });
