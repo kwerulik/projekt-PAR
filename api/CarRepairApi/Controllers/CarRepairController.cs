@@ -99,87 +99,61 @@ namespace CarRepairApi.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCarRepair(int id)
-        {
-            var CarRepair = await _context.CarRepairs.FindAsync(id);
-            if (CarRepair == null) return NotFound();
-
-            _context.CarRepairs.Remove(CarRepair);
-            await _context.SaveChangesAsync();
-            return NoContent();
-        }
-
-        private async Task<bool> CarRepairExists(int id)
-        {
-            return await _context.CarRepairs.AnyAsync(e => e.Id == id);
-        }
-        
-        [HttpPost("upload/{id}")]
-        public async Task<IActionResult> UploadPaymentDoc(int id, IFormFile file)
-        {
-            try
+            [HttpDelete("{id}")]
+            public async Task<IActionResult> DeleteCarRepair(int id)
             {
-                var carRepair = await _context.CarRepairs.FindAsync(id);
-                if (carRepair == null)
-                    return NotFound(new { message = "Zgłoszenie nie istnieje." });
-
-                if (file == null || file.Length == 0)
-                    return BadRequest(new { message = "Plik jest pusty lub nie przesłano pliku." });
-
-                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "faktury");
-                if (!Directory.Exists(uploadsFolder))
-                    Directory.CreateDirectory(uploadsFolder);
-
-                var fileName = $"{Guid.NewGuid()}_{file.FileName}";
-                var filePath = Path.Combine(uploadsFolder, fileName);
-
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await file.CopyToAsync(stream);
-                }
-
-                carRepair.PaymentDoc = $"faktury/{fileName}";
+                var CarRepair = await _context.CarRepairs.FindAsync(id);
+                if (CarRepair == null) return NotFound();
+    
+                _context.CarRepairs.Remove(CarRepair);
                 await _context.SaveChangesAsync();
-
-                return Ok(new { message = "Plik przesłany", path = carRepair.PaymentDoc });
+                return NoContent();
             }
-            catch (Exception ex)
+    
+            private async Task<bool> CarRepairExists(int id)
             {
-                return StatusCode(500, new { message = "Błąd podczas przesyłania pliku: " + ex.Message });
+                return await _context.CarRepairs.AnyAsync(e => e.Id == id);
             }
-        }
-
-        [HttpGet("download/{id}")]
+            
+          [HttpGet("{id}/download")]
         public async Task<IActionResult> DownloadPaymentDoc(int id)
         {
-            try
-            {
-                var carRepair = await _context.CarRepairs.FindAsync(id);
-                if (carRepair == null)
-                    return NotFound(new { message = "Zgłoszenie nie istnieje." });
-
-                if (string.IsNullOrEmpty(carRepair.PaymentDoc))
-                    return NotFound(new { message = "Nie znaleziono pliku faktury." });
-
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), carRepair.PaymentDoc);
-                if (!System.IO.File.Exists(filePath))
-                    return NotFound(new { message = "Plik faktury nie istnieje na serwerze." });
-
-                var memory = new MemoryStream();
-                using (var stream = new FileStream(filePath, FileMode.Open))
-                {
-                    await stream.CopyToAsync(memory);
-                }
-                memory.Position = 0;
-
-                return File(memory, "application/pdf", Path.GetFileName(filePath));
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = "Błąd podczas pobierania pliku: " + ex.Message });
-            }
+            var repair = await _context.CarRepairs.FindAsync(id);
+            if (repair == null || string.IsNullOrEmpty(repair.PaymentDoc))
+                return NotFound("Brak faktury");
+        
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", repair.PaymentDoc);
+            if (!System.IO.File.Exists(filePath)) return NotFound("Plik nie istnieje");
+        
+            var mimeType = "application/pdf";
+            var fileBytes = await System.IO.File.ReadAllBytesAsync(filePath);
+            return File(fileBytes, mimeType, Path.GetFileName(filePath));
         }
-
+        
+        [HttpPost("{id}/upload")]
+        public async Task<IActionResult> UploadPaymentDoc(int id, IFormFile file)
+        {
+            var repair = await _context.CarRepairs.FindAsync(id);
+            if (repair == null) return NotFound("Naprawa nie istnieje");
+        
+            if (file == null || file.Length == 0)
+                return BadRequest("Nie przesłano pliku");
+        
+            var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "faktury");
+            Directory.CreateDirectory(folderPath); // jeśli nie istnieje
+        
+            var fileName = $"{Guid.NewGuid()}_{file.FileName}";
+            var filePath = Path.Combine(folderPath, fileName);
+        
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+        
+            repair.PaymentDoc = $"faktury/{fileName}";
+            await _context.SaveChangesAsync();
+        
+            return Ok(new { message = "Plik zapisany", path = repair.PaymentDoc });
+        }
+        }
     }
-}
