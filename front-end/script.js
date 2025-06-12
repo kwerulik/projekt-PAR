@@ -19,7 +19,7 @@ export async function renderCarDetails(){
           <p><strong>Właściciel:</strong> ${carItem.owner}</p>
           <p><strong>Data rozpoczęcia:</strong> ${carItem.startDate || ''}</p>
           <p><strong>Data zakończenia:</strong> ${carItem.endDate || ''}</p>
-          <p><a href="${carItem.payment}" target="_blank">Pokaż fakturę</a></p>
+          <p><a href="faktury/${carItem.paymentDoc}" target="_blank">Pokaż fakturę</a></p>
         </div>
         <form class="update-form hidden" id="update-form-${carItem.id}">
           <label>Make: <input name="make" value="${carItem.make}" required/></label><br>
