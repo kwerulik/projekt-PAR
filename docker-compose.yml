@@ -19,7 +19,7 @@ services:
       context: ./front-end
       dockerfile: Dockerfile
     ports:
-      - "80:80"
+      - "2137:2137"
     depends_on:
       - api
     networks:
