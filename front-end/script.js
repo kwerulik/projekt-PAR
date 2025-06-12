@@ -29,9 +29,9 @@ export async function renderCarDetails() {
         <div class="more-info-box hidden" id="info-box-${carItem.id}">
           <p><strong>Model:</strong> ${carItem.model}</p>
           <p><strong>Właściciel:</strong> ${carItem.owner}</p>
-          <p><strong>Data rozpoczęcia:</strong> ${carItem.startDate || ""}</p>
-          <p><strong>Data zakończenia:</strong> ${carItem.endDate || ""}</p>
-          <p><a href="${carItem.payment}" target="_blank">Pokaż fakturę</a></p>
+          <p><strong>Data rozpoczęcia:</strong> ${carItem.startDate || ''}</p>
+          <p><strong>Data zakończenia:</strong> ${carItem.endDate || ''}</p>
+          <p><a href="faktury/${carItem.paymentDoc}" target="_blank">Pokaż fakturę</a></p>
         </div>
         <form class="update-form hidden" id="update-form-${carItem.id}">
           <label>Make: <input name="make" value="${
@@ -84,8 +84,8 @@ function addEventListeners() {
         if (result?.status === "error") {
           alert(`Błąd usuwania auta: ${result.message}`);
         } else {
-          alert("Auto zostało usunięte");
           renderCarDetails();
+          alert("Auto zostało usunięte");
         }
       });
     });
@@ -154,8 +154,8 @@ function addEventListeners() {
         if (result?.status === "error") {
           alert(`Błąd aktualizacji auta: ${result.message}`);
         } else {
-          alert(result.message);
           renderCarDetails();
+          alert(result.message);
         }
       });
     });
@@ -187,8 +187,8 @@ addCarForm.addEventListener("submit", async (event) => {
     if (result?.status === "error") {
       alert(`Błąd dodawania auta: ${result.message}`);
     } else {
-      alert("Auto zostało dodane");
       renderCarDetails();
+      alert("Auto zostało dodane");
     }
   });
   addCarModal.classList.add("hidden");

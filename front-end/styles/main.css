@@ -1,7 +1,11 @@
 body {
   font-family: "Roboto";
-  background-color: #0f0e17;
-  color: #fffffe;
+  color: #a8006b; /* ciemny róż */
+  background-image: url("../images/background-img.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center top;
 }
 
 .cars-container {
@@ -14,11 +18,11 @@ body {
 
 .car-details {
   position: relative;
-  border: 1px solid #2e2f3e;
+  border: 1px solid #ffb3d9; /* jasny róż */
   padding: 15px;
   height: 250px;
   width: 250px;
-  background-color: #1f2833;
+  background-color: #ffe4f2; /* jasnoróżowe tło */
   border-radius: 8px;
   text-align: center;
 
@@ -45,7 +49,7 @@ body {
 
 .buttons-container button {
   border: none;
-  background-color: #3bba9c;
+  background-color: #ff69b4; /* intensywny róż */
   border-radius: 5px;
   color: #fff;
   font-size: 19px;
@@ -53,14 +57,14 @@ body {
 }
 
 .buttons-container button:hover {
-  background-color: #24967a;
+  background-color: #e754a6; /* ciemniejszy róż */
   cursor: pointer;
   transform: translateY(-2px) scale(1.04);
 }
 
 .add-car-button {
   position: fixed;
-  color: white;
+  color: #fff;
   font-size: 50px;
   right:  60px;
   bottom: 70px;
@@ -76,12 +80,12 @@ body {
   position: fixed;
   right: 40px;
   bottom: 100px;
-  background: #fff;
-  color: black;
-  border: 1px solid #ccc;
+  background: #fff0f6; /* bardzo jasny róż */
+  color: #a8006b;
+  border: 1px solid #ffb3d9;
   padding: 24px;
   border-radius: 8px;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 16px rgba(255, 105, 180, 0.15);
   z-index: 1001;
 }
 
@@ -92,7 +96,7 @@ body {
 }
 
 .add-car-form button[type="submit"] {
-  background: #3bba9c;
+  background: #ff69b4;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -105,13 +109,13 @@ body {
 }
 
 .add-car-form button[type="submit"]:hover {
-  background: #24967a;
+  background: #e754a6;
   transform: scale(1.04);
 }
 
 .add-car-form .cancel-add-car{
-  background: #e0e3ef;
-  color: #232946;
+  background: #ffd6ec;
+  color: #a8006b;
   border: none;
   border-radius: 5px;
   padding: 8px 16px;
@@ -121,6 +125,6 @@ body {
 }
 
 .add-car-form .cancel-add-car:hover {
-  background: #bfc8e6;
-  color: #232946;
+  background: #ffb3d9;
+  color: #a8006b;
 }
