@@ -31,8 +31,7 @@ namespace CarRepairApi.Controllers
                         Note = "Wymiana oleju silnikowego i filtra",
                         Owner = "Jan Kowalski",
                         StartDate = new DateOnly(2025, 3, 10),
-                        EndDate = new DateOnly(2025, 3, 11),
-                        PaymentDoc = "faktury/payment1.pdf"},
+                        EndDate = new DateOnly(2025, 3, 11)},
 
                     new CarRepair {
                         PlateNumber = "WA4567CD",
@@ -41,8 +40,7 @@ namespace CarRepairApi.Controllers
                         Note = "Naprawa układu hamulcowego",
                         Owner = "Anna Nowak",
                         StartDate = new DateOnly(2025, 4, 2),
-                        EndDate = new DateOnly(2025, 4, 4),
-                        PaymentDoc = "faktury/payment2.pdf"},
+                        EndDate = new DateOnly(2025, 4, 4)},
 
                     new CarRepair {
                         PlateNumber ="PO8910EF",
@@ -51,8 +49,7 @@ namespace CarRepairApi.Controllers
                         Note = "Wymiana sprzęgła",
                         Owner = "Piotr Zieliński",
                         StartDate = new DateOnly(2025, 2, 15),
-                        EndDate = new DateOnly(2025, 2, 17),
-                        PaymentDoc = "faktury/payment3.pdf"}
+                        EndDate = new DateOnly(2025, 2, 17)}
                 ]);
                 _context.SaveChanges();
             }
@@ -127,22 +124,16 @@ namespace CarRepairApi.Controllers
                 if (file == null || file.Length == 0)
                     return BadRequest(new { message = "Plik jest pusty lub nie przesłano pliku." });
 
-                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "faktury");
-                if (!Directory.Exists(uploadsFolder))
-                    Directory.CreateDirectory(uploadsFolder);
-
-                var fileName = $"{Guid.NewGuid()}_{file.FileName}";
-                var filePath = Path.Combine(uploadsFolder, fileName);
-
-                using (var stream = new FileStream(filePath, FileMode.Create))
+                using (var memoryStream = new MemoryStream())
                 {
-                    await file.CopyToAsync(stream);
+                    await file.CopyToAsync(memoryStream);
+                    carRepair.PaymentDocData = memoryStream.ToArray();
+                    carRepair.PaymentDocFileName = file.FileName;
+                    carRepair.PaymentDocContentType = file.ContentType;
                 }
 
-                carRepair.PaymentDoc = $"faktury/{fileName}";
                 await _context.SaveChangesAsync();
-
-                return Ok(new { message = "Plik przesłany", path = carRepair.PaymentDoc });
+                return Ok(new { message = "Plik przesłany pomyślnie" });
             }
             catch (Exception ex)
             {
@@ -159,21 +150,14 @@ namespace CarRepairApi.Controllers
                 if (carRepair == null)
                     return NotFound(new { message = "Zgłoszenie nie istnieje." });
 
-                if (string.IsNullOrEmpty(carRepair.PaymentDoc))
+                if (carRepair.PaymentDocData == null)
                     return NotFound(new { message = "Nie znaleziono pliku faktury." });
 
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), carRepair.PaymentDoc);
-                if (!System.IO.File.Exists(filePath))
-                    return NotFound(new { message = "Plik faktury nie istnieje na serwerze." });
-
-                var memory = new MemoryStream();
-                using (var stream = new FileStream(filePath, FileMode.Open))
-                {
-                    await stream.CopyToAsync(memory);
-                }
-                memory.Position = 0;
-
-                return File(memory, "application/pdf", Path.GetFileName(filePath));
+                return File(
+                    carRepair.PaymentDocData,
+                    carRepair.PaymentDocContentType ?? "application/octet-stream",
+                    carRepair.PaymentDocFileName ?? "document.pdf"
+                );
             }
             catch (Exception ex)
             {
